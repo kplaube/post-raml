@@ -1,0 +1,61 @@
+#%RAML 1.0
+title: Movies API
+version: v1
+baseUri: https://api.movies.com/{version}
+mediaType: application/json
+
+types:
+  Movie:
+    properties:
+      id: string
+      title: string
+      description?: string
+
+/movies:
+  description: A set of movies.
+
+  get:
+    description: Get a list of movies.
+    responses:
+      200:
+        body: Movie[]
+  post:
+    body:
+      type: Movie
+    description: Add a new movie to the set.
+    responses:
+      201:
+        description: Returns the new movie.
+        body: Movie
+      409:
+        description: The movie already exists in our database.
+        body:
+          properties:
+            error: string
+  /{id}:
+    uriParameters:
+      id:
+        description: The Movie identifier.
+        type: string
+
+    get:
+       description: Gets a specific movie.
+       responses:
+         200:
+           description: Returns the specific movie.
+           body: Movie
+
+    put:
+      body:
+        type: Movie
+      description: Updates an already created movie.
+      responses:
+        200:
+          description: Returns the updated movie.
+          body: Movie
+
+    delete:
+      description: Deletes the movie.
+      responses:
+        200:
+          description: Confirms the deletion.
