@@ -10,6 +10,14 @@ types:
       id: string
       title: string
       description?: string
+traits:
+  dataValidation:
+    responses:
+      400:
+        description: A BadRequest happens when data validation fails.
+        body:
+          properties:
+            error: string
 
 /movies:
   description: A set of movies.
@@ -20,6 +28,7 @@ types:
       200:
         body: Movie[]
   post:
+    is: [dataValidation]
     body:
       type: Movie
     description: Add a new movie to the set.
@@ -46,6 +55,7 @@ types:
            body: Movie
 
     put:
+      is: [dataValidation]
       body:
         type: Movie
       description: Updates an already created movie.
@@ -57,5 +67,5 @@ types:
     delete:
       description: Deletes the movie.
       responses:
-        200:
+        204:
           description: Confirms the deletion.
